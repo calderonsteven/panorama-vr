@@ -1,2 +1,3 @@
-# panorama-vr
-just a panorama vr miniweb
+Just choose where you want to go
+
+a simple webVr experiment
