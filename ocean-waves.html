@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A-island</title>
+    <meta name="description" content="Panorama travel with A-Frame">
+    <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v2.5.3/dist/aframe-extras.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <audio id="ocean" src="audio/ocean.mp3">
+        <audio id="seagull" src="audio/seagull.mp3">
+
+        <a-asset-item id="seagull-obj" src="models/seagull.obj"></a-asset-item>
+        <a-asset-item id="seagull-mtl" src="models/seagull.mtl"></a-asset-item>
+
+        <a-asset-item id="cloud1-obj" src="models/cloud.obj"></a-asset-item>
+        <a-asset-item id="cloud1-mtl" src="models/cloud.mtl"></a-asset-item>
+      </a-assets>
+
+      <a-sky color="#AADDF0"></a-sky>
+      <a-sphere position="25.54 18.03 -24.02" radius="1.25" color="#FDB813" scale="2 2 2"></a-sphere>
+
+      <a-entity position="0 8.38 0" rotation="0 0 0">
+        <a-obj-model  src="#seagull-obj"
+                      position="0 0 -16.67" rotation="0 -52 0"
+                      sound="src: #seagull; autoplay: true" ></a-obj-model>
+        <a-animation easing="linear"
+                    attribute="rotation"
+                    dur="13000" repeat="indefinite"
+                    fill="forwards"
+                    from="0 0 0" to="0 360 0"></a-animation>
+      </a-entity>
+
+      <a-entity position="-77.58 29.14 -46.59" rotation="6.875493541569878 120.32113697747289 170.1684651538545" scale="0.5 0.5 0.5">
+        <a-obj-model id="clouds" src="#cloud1-obj" mtl="#cloud1-mtl" position="57.21 -18.92 88.09" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds6" src="#cloud1-obj" mtl="#cloud1-mtl" position="-66.45 -18.78 10.01" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds7" src="#cloud1-obj" mtl="#cloud1-mtl" position="35.69 8.79 -21.29" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds8" src="#cloud1-obj" mtl="#cloud1-mtl" position="67.74 18.18 -40.38" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds2" src="#cloud1-obj" mtl="#cloud1-mtl" position="57.11 -14.55 -34.59" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds4" src="#cloud1-obj" mtl="#cloud1-mtl" position="45.92 11.82 -100.98" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds5" src="#cloud1-obj" mtl="#cloud1-mtl" position="11.99 -25.88 -7.68" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds3" src="#cloud1-obj" mtl="#cloud1-mtl" position="1 -2.91 0.48" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+
+        <a-animation easing="linear"
+                    attribute="position"
+                    dur="3000" repeat="indefinite"
+                    fill="forwards"
+                    direction="alternate"
+                    from="-77.58 29.14 -46.59" to="-77.58 30.14 -46.59"></a-animation>
+      </a-entity>
+
+      <a-entity position="34.36 54.79 -33.65" rotation="6.875493541569878 90 170.1684651538545" scale="0.5 0.5 0.5">
+        <a-obj-model id="clouds" src="#cloud1-obj" mtl="#cloud1-mtl" position="57.21 -18.92 88.09" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds6" src="#cloud1-obj" mtl="#cloud1-mtl" position="-66.45 -18.78 10.01" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds7" src="#cloud1-obj" mtl="#cloud1-mtl" position="35.69 8.79 -21.29" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds8" src="#cloud1-obj" mtl="#cloud1-mtl" position="67.74 18.18 -40.38" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds2" src="#cloud1-obj" mtl="#cloud1-mtl" position="57.11 -14.55 -34.59" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds4" src="#cloud1-obj" mtl="#cloud1-mtl" position="45.92 11.82 -100.98" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds5" src="#cloud1-obj" mtl="#cloud1-mtl" position="11.99 -25.88 -7.68" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+        <a-obj-model id="clouds3" src="#cloud1-obj" mtl="#cloud1-mtl" position="1 -2.91 0.48" rotation="0 0 0" material="" obj-model="obj:#cloud1-obj;mtl:#cloud1-mtl"></a-obj-model>
+
+        <a-animation easing="linear"
+                    attribute="position"
+                    dur="3000" repeat="indefinite"
+                    fill="forwards"
+                    direction="alternate"
+                    from="34.36 54.79 -33.65" to="34.36 55.79 -33.65"></a-animation>
+      </a-entity>
+
+      <a-circle color="#EDC9AF" radius="4.12" segments="6" position="0 0.35 0" rotation="-90 0 0" geometry="radius:4.12;segments:6"></a-circle>
+      <a-circle color="#395D33" radius="3" segments="8" position="0.48 0.36 0" rotation="-90 0 0" geometry="radius:3;segments:8"></a-circle>
+
+      <a-ocean width="50" depth="50" density="40" sound="src: #ocean; autoplay: true; volume: 0.2;" ></a-ocean>
+
+    </a-scene>
+  </body>
+</html>
