@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Panorama travel with A-Frame</title>
+    <meta name="description" content="Panorama travel with A-Frame">
+    <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
+    <script src="libs/aframe-particle-system-component.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <img id="snow" src="images/bergsjostolen.jpg">
+      </a-assets>
+
+      <a-entity position="0 5 0" particle-system="preset: snow"></a-entity>
+      <a-sky src="#snow"></a-sky>
+    </a-scene>
+  </body>
+</html>
