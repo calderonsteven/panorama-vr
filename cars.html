@@ -4,38 +4,42 @@
     <meta charset="utf-8">
     <title>A-cars</title>
     <meta name="description" content="A-cars">
-    <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
   </head>
   <body>
-    <a-scene stats>
+    <a-scene>
       <a-assets>
         <a-asset-item id="honda-type-r" src="models/honda-type-r.dae">
         <img id="sky-img" src="images/teichsmuhlengasse.jpg">
         <img id="popup-background" src="images/background-gray.png">
         <img id="civic-type-r-red" src="images/civic-type-r-red.png">
         <img id="civic-price" src="images/civic-price.png">
+        <img id="civic-interior" src="images/civic-interior.jpg">
       </a-assets>
 
       <a-entity position="0 1.80 0">
         <a-entity camera look-controls wasd-controls>
           <a-entity position="0 0 -3"
-                    geometry="primitive: ring; radiusOuter: 0.20;
-                              radiusInner: 0.15;"
+                    geometry="primitive: ring; radiusOuter: 0.15;
+                              radiusInner: 0.10;"
                     material="color: #75ffff; shader: flat"
-                    cursor="maxDistance: 30; fuse: true"
+                    cursor="maxDistance: 30; fuse: true; fuseTimeout: 5000"
                     raycaster="objects: [popup-opener]">
 
-           <a-animation begin="click" easing="ease-in" attribute="scale"
+           <!-- <a-animation begin="click" easing="ease-in" attribute="scale"
                         fill="backwards" from="0.5 0.5 0.5" to="1 1 1"></a-animation>
            <a-animation begin="cursor-fusing" easing="ease-in" attribute="scale"
-                        fill="forwards" from="1 1 1" to="0.5 0.5 0.5"></a-animation>
+                        fill="forwards" from="1 1 1" to="0.5 0.5 0.5"></a-animation> -->
+            <a-entity id="text-cursor" position="1.24 0.01 0.74"
+                      text="width: 2; color: white; value: Opening in 5; opacity: 0">
+            </a-entity>
           </a-entity>
         </a-entity>
       </a-entity>
 
       <a-entity position="0 0.2 -6.99">
         <a-entity>
-          <a-collada-model popup-opener src="#honda-type-r" collada-model="#honda-type-r" rotation="0 210 0">
+          <a-collada-model popup-opener id="honda-model" src="#honda-type-r" collada-model="#honda-type-r" rotation="0 210 0">
             <a-animation begin="mouseenter" easing="ease-out" attribute="position" dur="500" fill="forwards" to="0 0 1"></a-animation>
             <a-animation begin="mouseleave" easing="ease-in" attribute="position" dur="500" fill="forwards" to="0 0 0"></a-animation>
           </a-collada-model>
@@ -51,30 +55,9 @@
             <a-animation begin="hidepopup" easing="ease-in" attribute="position" dur="800" fill="forwards" to="0 1.15 0"></a-animation>
             <a-animation begin="hidepopup" easing="ease-in" attribute="group-opacity.opacity" dur="800" fill="forwards" to="0"></a-animation>
           </a-entity>
-
-          <!--<a-animation begin="cursor-hovered" easing="linear" attribute="rotation" dur="8000" repeat="indefinite" fill="none" to="0 360 0"></a-animation>-->
-          <!--<a-animation begin="mouseenter" easing="ease-out" attribute="position" dur="500" fill="forwards" to="0 0 1"></a-animation>
-          <a-animation begin="mouseleave" easing="ease-in" attribute="position" dur="500" fill="forwards" to="0 0 0"></a-animation>-->
         </a-entity>
       </a-entity>
 
-<!--
-      <a-entity position="-6.4 0.2 -2.41" rotation="0 0 0">
-        <a-collada-model src="#honda-type-r" collada-model="#honda-type-r" rotation="0 -132 0" material=""></a-collada-model>
-        <a-animation begin="cursor-hovered" easing="linear" attribute="rotation" dur="8000" repeat="indefinite" fill="none" to="0 360 0"></a-animation>
-        <a-animation begin="cursor-hovered" easing="ease-out" attribute="position" dur="500" fill="forwards" to="-5.4 0.2 -2.41"></a-animation>
-      </a-entity>
-
-      <a-entity position="6.36 0.2 -2.73" rotation="0 0 0">
-        <a-collada-model src="#honda-type-r" collada-model="#honda-type-r" rotation="0 132 0" material=""></a-collada-model>
-        <a-animation begin="cursor-hovered" easing="linear" attribute="rotation" dur="8000" repeat="indefinite" fill="none" to="0 360 0"></a-animation>
-        <a-animation begin="cursor-hovered" easing="ease-out" attribute="position" dur="500" fill="forwards" to="5.36 0.2 -2.73"></a-animation>
-      </a-entity>
-    -->
-
-<!--
-      <a-circle color="#CCC" radius="8" material="color:#CCC" position="0 0 0" rotation="-90 0 0"></a-circle>
-    -->
       <a-sky id="sky" src="#sky-img" ></a-sky>
     </a-scene>
 
@@ -82,13 +65,26 @@
       // Component to change to random color on click.
       AFRAME.registerComponent('popup-opener', {
         init: function () {
+          var cursorText = document.querySelector('#text-cursor');
+          var cursorIntervalID, timeToOpenInterior = 5;
+
           this.el.addEventListener('mouseenter', function () {
             document.querySelector('#car-popup').emit('showpopup');
+
+            timeToOpenInterior = 5;
+            cursorText.setAttribute('text', 'value', 'Opening in ' + timeToOpenInterior);
+            cursorText.setAttribute('text', 'opacity', 1);
+            cursorIntervalID = setInterval(function() {
+              --timeToOpenInterior;
+              cursorText.setAttribute('text', 'value', 'Opening in ' + timeToOpenInterior);
+            }, 1000)
             //sky.setAttribute('material', 'src', this.getAttribute('src'));
           });
 
           this.el.addEventListener('mouseleave', function () {
             document.querySelector('#car-popup').emit('hidepopup');
+            cursorText.setAttribute('text', 'opacity', 0);
+            clearInterval(cursorIntervalID);
             //sky.setAttribute('material', 'src', this.getAttribute('src'));
           });
         }
@@ -105,6 +101,12 @@
               child.setAttribute('opacity', opacity);
             });
         }
+      });
+
+      var car = document.querySelector('#honda-model');
+      car.addEventListener('click', function () {
+        document.querySelector('#sky').setAttribute('material', 'src', '#civic-interior');
+        car.setAttribute('visible', false);
       });
     </script>
   </body>
