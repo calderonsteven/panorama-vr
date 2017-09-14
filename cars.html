@@ -24,7 +24,7 @@
                               radiusInner: 0.10;"
                     material="color: #75ffff; shader: flat"
                     cursor="maxDistance: 30; fuse: true; fuseTimeout: 5000"
-                    raycaster="objects: [popup-opener]">
+                    raycaster="objects: .clickable">
 
            <!-- <a-animation begin="click" easing="ease-in" attribute="scale"
                         fill="backwards" from="0.5 0.5 0.5" to="1 1 1"></a-animation>
@@ -39,7 +39,7 @@
 
       <a-entity position="0 0.2 -6.99">
         <a-entity>
-          <a-collada-model popup-opener id="honda-model" src="#honda-type-r" collada-model="#honda-type-r" rotation="0 210 0">
+          <a-collada-model class="clickable" popup-opener id="honda-model" src="#honda-type-r" collada-model="#honda-type-r" rotation="0 210 0">
             <a-animation begin="mouseenter" easing="ease-out" attribute="position" dur="500" fill="forwards" to="0 0 1"></a-animation>
             <a-animation begin="mouseleave" easing="ease-in" attribute="position" dur="500" fill="forwards" to="0 0 0"></a-animation>
           </a-collada-model>
@@ -59,6 +59,20 @@
       </a-entity>
 
       <a-sky id="sky" src="#sky-img" ></a-sky>
+
+      <a-entity id="back-to-exterior-button"
+                class="clickable"
+                visible="false"
+                back-to-exterior
+                position="-3.4 2 -0.086"
+                scale="2.732 2.732 2.732">
+        <a-entity text="align: center; color: #e8ff04; opacity: 1; transparent: false; value: exit; width: 2"
+                  rotation="0 90 0"
+                  geometry="primitive:plane;height:0.14;width:0.220"
+                  material="color:#003cff">
+        </a-entity>
+      </a-entity>
+    </a-entity>
     </a-scene>
 
     <script type="text/javascript">
@@ -70,6 +84,7 @@
 
           this.el.addEventListener('mouseenter', function () {
             document.querySelector('#car-popup').emit('showpopup');
+            cursorText.setAttribute('text', {'color': 'white'});
 
             timeToOpenInterior = 5;
             cursorText.setAttribute('text', 'value', 'Opening in ' + timeToOpenInterior);
@@ -83,6 +98,34 @@
 
           this.el.addEventListener('mouseleave', function () {
             document.querySelector('#car-popup').emit('hidepopup');
+            cursorText.setAttribute('text', 'opacity', 0);
+            clearInterval(cursorIntervalID);
+            //sky.setAttribute('material', 'src', this.getAttribute('src'));
+          });
+        }
+      });
+
+      AFRAME.registerComponent('back-to-exterior', {
+        init: function () {
+          var cursorText = document.querySelector('#text-cursor');
+          var cursorIntervalID, timeToOpenInterior = 5;
+
+          this.el.addEventListener('mouseenter', function () {
+            // document.querySelector('#car-popup').emit('showpopup');
+            cursorText.setAttribute('text', {'color': 'black'});
+
+            timeToOpenInterior = 5;
+            cursorText.setAttribute('text', 'value', 'Closing in ' + timeToOpenInterior);
+            cursorText.setAttribute('text', 'opacity', 1);
+            cursorIntervalID = setInterval(function() {
+              --timeToOpenInterior;
+               cursorText.setAttribute('text', 'value', 'Closing in ' + timeToOpenInterior);
+            }, 1000)
+            //sky.setAttribute('material', 'src', this.getAttribute('src'));
+          });
+
+          this.el.addEventListener('mouseleave', function () {
+            // document.querySelector('#car-popup').emit('hidepopup');
             cursorText.setAttribute('text', 'opacity', 0);
             clearInterval(cursorIntervalID);
             //sky.setAttribute('material', 'src', this.getAttribute('src'));
@@ -104,9 +147,18 @@
       });
 
       var car = document.querySelector('#honda-model');
+      var exteriorButton = document.querySelector('#back-to-exterior-button');
+
       car.addEventListener('click', function () {
         document.querySelector('#sky').setAttribute('material', 'src', '#civic-interior');
         car.setAttribute('visible', false);
+        exteriorButton.setAttribute('visible', true);
+      });
+
+      exteriorButton.addEventListener('click', function () {
+        document.querySelector('#sky').setAttribute('material', 'src', '#sky-img');
+        car.setAttribute('visible', true);
+        exteriorButton.setAttribute('visible', false);
       });
     </script>
   </body>
